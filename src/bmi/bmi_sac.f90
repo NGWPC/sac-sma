@@ -167,6 +167,7 @@ contains
     output_items(9) = 'bfs'     ! channel baseflow component (mm)
     output_items(10) = 'bfp'    ! channel baseflow component (mm)
     output_items(11) = 'bfncc'  ! non-channel baseflow component (mm)
+    output_items(12) = 'sf'  ! streamflow (m/sec)
 
     names => output_items
     bmi_status = BMI_SUCCESS
@@ -306,7 +307,7 @@ contains
     select case(name)
     case('tair', 'precip', 'pet', &                  ! input vars
          'qs', 'qg', 'tci', 'eta',  &                ! output vars
-         'roimp','sdro','ssur','sif','bfs','bfp', 'bfncc')
+         'roimp','sdro','ssur','sif','bfs','bfp', 'bfncc', 'sf')
        grid = 0
        bmi_status = BMI_SUCCESS
     case default
@@ -578,7 +579,7 @@ contains
     select case(name)
     case('tair', 'precip', 'pet',  &                ! input vars
          'qs', 'qg', 'tci', 'eta', &                ! output vars
-         'roimp','sdro','ssur','sif','bfs','bfp', 'bfncc')
+         'roimp','sdro','ssur','sif','bfs','bfp', 'bfncc', 'sf')
        type = "real"
        bmi_status = BMI_SUCCESS
     case default
@@ -655,6 +656,9 @@ contains
     case("bfncc")
        units = "mm"
        bmi_status = BMI_SUCCESS
+    case("sf")
+       units = "m/sec"
+       bmi_status = BMI_SUCCESS
     case default
        units = "-"
        bmi_status = BMI_FAILURE
@@ -712,6 +716,9 @@ contains
        bmi_status = BMI_SUCCESS
     case("bfncc")
        size = sizeof(this%model%modelvar%bfncc(1))
+       bmi_status = BMI_SUCCESS
+    case("sf")
+       size = sizeof(this%model%modelvar%sf(1))
        bmi_status = BMI_SUCCESS
     case default
        size = -1
@@ -823,6 +830,10 @@ contains
        bmi_status = BMI_SUCCESS
     case("bfncc")
        dest(1) = this%model%modelvar%bfncc(1)
+       bmi_status = BMI_SUCCESS
+    case("sf")
+       dest(1) = (this%model%modelvar%qs(1) + this%model%modelvar%roimp(1) + this%model%modelvar%sdro(1) +
+       this%model%modelvar%ssur(1))/(1000*60*60)
        bmi_status = BMI_SUCCESS
     case default
        dest(:) = -1.0

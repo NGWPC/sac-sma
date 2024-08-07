@@ -11,7 +11,7 @@ module derivedType
     real                               :: roimp_comb, sdro_comb, ssur_comb    
     real                               :: sif_comb, bfs_comb, bfp_comb        
     real                               :: precip_comb, tair_comb, pet_comb
-    real                               :: bfncc_comb    
+    real                               :: bfncc_comb, sf_comb    
     !variables for the mass balance check
     real, dimension(:), allocatable    :: precip_sum, eta_sum,tci_sum 
     real, dimension(:), allocatable    :: delta_uztwc_sum, delta_uzfwc_sum     
@@ -76,6 +76,7 @@ module derivedType
     this%delta_storage_sum = 0.0
     this%mass_balance    = 0.0
     this%bfncc_sum       = 0.0
+    this%sf              = 0.0
   end subroutine initDerived
 
 end module derivedType

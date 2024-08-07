@@ -25,6 +25,7 @@ module modelVarType
     real, dimension(:), allocatable    :: bfs    ! channel baseflow component (mm)
     real, dimension(:), allocatable    :: bfp    ! channel baseflow component (mm)
     real, dimension(:), allocatable    :: bfncc  ! baseflow non-channelcomponent (mm)
+    real, dimension(:), allocatable    :: sf     ! streamflow (m/s)
             
     contains
 
@@ -59,7 +60,8 @@ module modelVarType
     allocate(this%sif   (1:namelist%n_hrus))
     allocate(this%bfs   (1:namelist%n_hrus))
     allocate(this%bfp   (1:namelist%n_hrus))
-    allocate(this%bfncc (1:namelist%n_hrus))   
+    allocate(this%bfncc (1:namelist%n_hrus))  
+    allocate(this%bfncc (sf:namelist%n_hrus)) 
 ! -- default assignmtents
     this%uztwc(:)      = 0.0
     this%uzfwc(:)      = 0.0 
@@ -78,6 +80,7 @@ module modelVarType
     this%bfs(:)        = 0.0
     this%bfp(:)        = 0.0
     this%bfncc(:)      = 0.0
+    this%sf(:)         = 0.0
   end subroutine initModelVar
 
 end module modelVarType
