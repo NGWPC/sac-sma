@@ -64,6 +64,7 @@ module derivedType
     this%tair_comb     = 0.0
     this%pet_comb      = 0.0
     this%bfncc_comb    = 0.0
+    this%sf_comb       = 0.0
     this%precip_sum    = 0.0
     this%eta_sum       = 0.0
     this%tci_sum       = 0.0
@@ -76,7 +77,5 @@ module derivedType
     this%delta_storage_sum = 0.0
     this%mass_balance    = 0.0
     this%bfncc_sum       = 0.0
-    this%sf              = 0.0
   end subroutine initDerived
-
 end module derivedType

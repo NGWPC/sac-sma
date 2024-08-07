@@ -98,7 +98,7 @@ module bmi_sac_module
 
   ! Exchange items
   integer, parameter :: input_item_count = 3
-  integer, parameter :: output_item_count = 11
+  integer, parameter :: output_item_count = 12
   character (len=BMI_MAX_VAR_NAME), target, &
        dimension(input_item_count) :: input_items
   character (len=BMI_MAX_VAR_NAME), target, &
@@ -832,7 +832,7 @@ contains
        dest(1) = this%model%modelvar%bfncc(1)
        bmi_status = BMI_SUCCESS
     case("sf")
-       dest(1) = (this%model%modelvar%qs(1) + this%model%modelvar%roimp(1) + this%model%modelvar%sdro(1) +
+       dest(1) = (this%model%modelvar%qs(1) + this%model%modelvar%roimp(1) + this%model%modelvar%sdro(1) + &
        this%model%modelvar%ssur(1))/(1000*60*60)
        bmi_status = BMI_SUCCESS
     case default

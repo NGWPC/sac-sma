@@ -313,8 +313,7 @@ contains
         endif
       
         ! Write 1-line header
-        write(runinfo%output_fileunits(nh+1),'(A)') 'year mo dy hr tair precip pet qs qg tci eta roimp sdro ssur sif bfs bfp bfncc
-        sf'
+        write(runinfo%output_fileunits(nh+1),'(A)') 'year mo dy hr tair precip pet qs qg tci eta roimp sdro ssur sif bfs bfp bfncc sf'
         
       end do  ! end loop over sub-units
       
@@ -517,7 +516,7 @@ contains
     derived%bfs_comb       = 0.0
     derived%bfp_comb       = 0.0
     derived%bfncc_comb     = 0.0
-    derived%sf_comp        = 0.0
+    derived%sf_comb        = 0.0
         
     if (n_curr_hru .eq. runinfo%n_hrus) then 
       do nh=1, runinfo%n_hrus
@@ -559,9 +558,8 @@ contains
       write(runinfo%output_fileunits(1), 32, iostat=ierr) runinfo%curr_yr, runinfo%curr_mo, runinfo%curr_dy, runinfo%curr_hr, &
             derived%tair_comb, derived%precip_comb, derived%pet_comb, &
             derived%qs_comb, derived%qg_comb, derived%tci_comb,derived%eta_comb, &
-            derived%roimp_comb, derived%sdro_comb, derived%ssur_comb, &
-            derived%sif_comb, derived%bfs_comb, derived%bfp_comb, derived%bfncc_comb &
-            derived%sf_comp
+            derived%roimp_comb, derived%sdro_comb, derived%ssur_comb, derived%sf_comb, &
+            derived%sif_comb, derived%bfs_comb, derived%bfp_comb, derived%bfncc_comb
       if(ierr /= 0) then
         print*, 'ERROR writing output information for sub-unit ', n_curr_hru; stop
       endif

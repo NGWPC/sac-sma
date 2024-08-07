@@ -61,7 +61,7 @@ module modelVarType
     allocate(this%bfs   (1:namelist%n_hrus))
     allocate(this%bfp   (1:namelist%n_hrus))
     allocate(this%bfncc (1:namelist%n_hrus))  
-    allocate(this%bfncc (sf:namelist%n_hrus)) 
+    allocate(this%sf    (1:namelist%n_hrus)) 
 ! -- default assignmtents
     this%uztwc(:)      = 0.0
     this%uzfwc(:)      = 0.0 

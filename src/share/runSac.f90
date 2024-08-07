@@ -175,7 +175,7 @@ contains
                     modelvar%lzfsc(nh), modelvar%lzfpc(nh), modelvar%adimc(nh), &
                     ! Sac Outputs
                     modelvar%qs(nh), modelvar%qg(nh), modelvar%tci(nh), modelvar%eta(nh), &
-                    modelvar%roimp(nh), modelvar%sdro(nh), modelvar%ssur(nh), modelvar%sf(nh) &
+                    modelvar%roimp(nh), modelvar%sdro(nh), modelvar%ssur(nh), modelvar%sf(nh), &
                     modelvar%sif(nh), modelvar%bfs(nh), modelvar%bfp(nh), modelvar%bfncc(nh) )   
                                                    
         !---------------------------------------------------------------------
