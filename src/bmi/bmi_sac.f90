@@ -99,7 +99,7 @@ module bmi_sac_module
 
   ! Exchange items
   integer, parameter :: input_item_count = 3
-  integer, parameter :: output_item_count = 11
+  integer, parameter :: output_item_count = 12
   character (len=BMI_MAX_VAR_NAME), target, &
        dimension(input_item_count) :: input_items
   character (len=BMI_MAX_VAR_NAME), target, &
@@ -168,6 +168,7 @@ contains
     output_items(9) = 'bfs'     ! channel baseflow component (mm)
     output_items(10) = 'bfp'    ! channel baseflow component (mm)
     output_items(11) = 'bfncc'  ! non-channel baseflow component (mm)
+    output_items(12) = 'qrain'  ! rain+melt liquid input (mm/s)
 
     names => output_items
     bmi_status = BMI_SUCCESS
@@ -257,6 +258,7 @@ contains
     class (bmi_sac), intent(inout) :: this
     integer :: bmi_status
 
+    this%model%derived%precip_comb = this%model%forcing%precip(1)
     call advance_in_time(this%model)
     bmi_status = BMI_SUCCESS
   end function sac_update
@@ -306,7 +308,7 @@ contains
     select case(name)
     case('tair', 'precip', 'pet', &                  ! input vars
          'qs', 'qg', 'tci', 'eta',  &                ! output vars
-         'roimp','sdro','ssur','sif','bfs','bfp', 'bfncc')
+         'roimp','sdro','ssur','sif','bfs','bfp', 'bfncc', 'qrain')
        grid = 0
        bmi_status = BMI_SUCCESS
     case('uztwm', 'uzfwm', 'lztwm', 'lzfsm',  'hru_area', &     ! parameters
@@ -748,6 +750,9 @@ contains
     case("rserv")
        units = "mm"
        bmi_status = BMI_SUCCESS 
+    case("qrain")
+       units = "mm/s"
+       bmi_status = BMI_SUCCESS
     case default
        units = "-"
        bmi_status = BMI_FAILURE
@@ -806,6 +811,9 @@ contains
        bmi_status = BMI_SUCCESS
     case("bfncc")
        size = sizeof(this%model%modelvar%bfncc(1))
+       bmi_status = BMI_SUCCESS
+    case("qrain")
+       size = sizeof(this%model%derived%precip_comb)
        bmi_status = BMI_SUCCESS
     case("uztwm")
        size = sizeof(this%model%parameters%uztwm(1))
@@ -998,6 +1006,9 @@ contains
        bmi_status = BMI_SUCCESS
     case("bfncc")
        dest(1) = this%model%modelvar%bfncc(1)
+       bmi_status = BMI_SUCCESS
+    case("qrain")
+       dest(1) = this%model%derived%precip_comb
        bmi_status = BMI_SUCCESS
     case("uztwm")
        dest(1) = this%model%parameters%uztwm(1)
@@ -1284,6 +1295,9 @@ contains
        bmi_status = BMI_SUCCESS
     case("bfncc")
        this%model%modelvar%bfncc(1) = src(1)
+       bmi_status = BMI_SUCCESS
+    case("qrain")
+       this%model%derived%precip_comb = src(1)
        bmi_status = BMI_SUCCESS
     case("uztwm")
        this%model%parameters%uztwm(1) = src(1)
