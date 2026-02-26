@@ -257,8 +257,19 @@ contains
   function sac_update(this) result (bmi_status)
     class (bmi_sac), intent(inout) :: this
     integer :: bmi_status
+    real :: p
 
-    this%model%derived%precip_comb = this%model%forcing%precip(1)
+    p = this%model%forcing%precip(1)
+
+    ! enforce non-negative and handle uninitialized junk
+    if (p /= p) then                      ! NaN check (NaN != NaN)
+       p = 0.0
+    else if (p < 0.0) then
+       p = 0.0
+    end if
+
+    this%model%derived%precip_comb = p
+
     call advance_in_time(this%model)
     bmi_status = BMI_SUCCESS
   end function sac_update
@@ -604,7 +615,7 @@ contains
     select case(name)
     case('tair', 'precip', 'pet',  &                ! input vars
          'qs', 'qg', 'tci', 'eta', &                ! output vars
-         'roimp','sdro','ssur','sif','bfs','bfp', 'bfncc')
+         'roimp','sdro','ssur','sif','bfs','bfp', 'bfncc', 'qrain')
        type = "real"
        bmi_status = BMI_SUCCESS
     case('uztwm', 'uzfwm', 'lztwm', 'lzfsm',  'hru_area', &     ! parameters
