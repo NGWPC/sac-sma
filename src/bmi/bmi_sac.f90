@@ -168,7 +168,7 @@ contains
     output_items(9) = 'bfs'     ! channel baseflow component (mm)
     output_items(10) = 'bfp'    ! channel baseflow component (mm)
     output_items(11) = 'bfncc'  ! non-channel baseflow component (mm)
-    output_items(12) = 'qrain'  ! rain+melt liquid input (mm/s)
+    output_items(12) = 'rmelt'  ! rain+melt liquid input (mm/s)
 
     names => output_items
     bmi_status = BMI_SUCCESS
@@ -319,7 +319,7 @@ contains
     select case(name)
     case('tair', 'precip', 'pet', &                  ! input vars
          'qs', 'qg', 'tci', 'eta',  &                ! output vars
-         'roimp','sdro','ssur','sif','bfs','bfp', 'bfncc', 'qrain')
+         'roimp','sdro','ssur','sif','bfs','bfp', 'bfncc', 'rmelt')
        grid = 0
        bmi_status = BMI_SUCCESS
     case('uztwm', 'uzfwm', 'lztwm', 'lzfsm',  'hru_area', &     ! parameters
@@ -615,7 +615,7 @@ contains
     select case(name)
     case('tair', 'precip', 'pet',  &                ! input vars
          'qs', 'qg', 'tci', 'eta', &                ! output vars
-         'roimp','sdro','ssur','sif','bfs','bfp', 'bfncc', 'qrain')
+         'roimp','sdro','ssur','sif','bfs','bfp', 'bfncc', 'rmelt')
        type = "real"
        bmi_status = BMI_SUCCESS
     case('uztwm', 'uzfwm', 'lztwm', 'lzfsm',  'hru_area', &     ! parameters
@@ -761,7 +761,7 @@ contains
     case("rserv")
        units = "mm"
        bmi_status = BMI_SUCCESS 
-    case("qrain")
+    case("rmelt")
        units = "mm/s"
        bmi_status = BMI_SUCCESS
     case default
@@ -823,7 +823,7 @@ contains
     case("bfncc")
        size = sizeof(this%model%modelvar%bfncc(1))
        bmi_status = BMI_SUCCESS
-    case("qrain")
+    case("rmelt")
        size = sizeof(this%model%derived%precip_comb)
        bmi_status = BMI_SUCCESS
     case("uztwm")
@@ -1018,7 +1018,7 @@ contains
     case("bfncc")
        dest(1) = this%model%modelvar%bfncc(1)
        bmi_status = BMI_SUCCESS
-    case("qrain")
+    case("rmelt")
        dest(1) = this%model%derived%precip_comb
        bmi_status = BMI_SUCCESS
     case("uztwm")
@@ -1307,7 +1307,7 @@ contains
     case("bfncc")
        this%model%modelvar%bfncc(1) = src(1)
        bmi_status = BMI_SUCCESS
-    case("qrain")
+    case("rmelt")
        this%model%derived%precip_comb = src(1)
        bmi_status = BMI_SUCCESS
     case("uztwm")
