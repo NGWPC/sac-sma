@@ -957,6 +957,7 @@ contains
     select case(name)
     case("precip", "rmelt")
        dest(1) = this%model%forcing%precip(1)
+!       dest(1) = this%model%derived%precip_comb
        bmi_status = BMI_SUCCESS
     case("tair")
        dest(1) = this%model%forcing%tair(1)
