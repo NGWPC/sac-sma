@@ -257,19 +257,6 @@ contains
   function sac_update(this) result (bmi_status)
     class (bmi_sac), intent(inout) :: this
     integer :: bmi_status
-    real :: p
-
-    p = this%model%forcing%precip(1)
-
-    ! enforce non-negative and handle uninitialized junk
-    if (p /= p) then                      ! NaN check (NaN != NaN)
-       p = 0.0
-    else if (p < 0.0) then
-       p = 0.0
-    end if
-
-    this%model%derived%precip_comb = p
-
     call advance_in_time(this%model)
     bmi_status = BMI_SUCCESS
   end function sac_update
@@ -653,7 +640,7 @@ contains
     integer :: bmi_status
 
     select case(name)
-    case("precip")
+    case("precip", "rmelt")
        units = "mm/s"
        bmi_status = BMI_SUCCESS
     case("tair")
@@ -761,9 +748,6 @@ contains
     case("rserv")
        units = "mm"
        bmi_status = BMI_SUCCESS 
-    case("rmelt")
-       units = "mm/s"
-       bmi_status = BMI_SUCCESS
     case default
        units = "-"
        bmi_status = BMI_FAILURE
@@ -779,7 +763,7 @@ contains
     integer :: bmi_status
 
     select case(name)
-    case("precip")
+    case("precip", "rmelt")
        size = sizeof(this%model%forcing%precip(1))
 !       size = sizeof(this%model%derived%precip_comb)    ! 'sizeof' in gcc & ifort
        bmi_status = BMI_SUCCESS
@@ -822,9 +806,6 @@ contains
        bmi_status = BMI_SUCCESS
     case("bfncc")
        size = sizeof(this%model%modelvar%bfncc(1))
-       bmi_status = BMI_SUCCESS
-    case("rmelt")
-       size = sizeof(this%model%derived%precip_comb)
        bmi_status = BMI_SUCCESS
     case("uztwm")
        size = sizeof(this%model%parameters%uztwm(1))
@@ -974,9 +955,8 @@ contains
     integer :: bmi_status
 
     select case(name)
-    case("precip")
+    case("precip", "rmelt")
        dest(1) = this%model%forcing%precip(1)
-!       dest(1) = this%model%derived%precip_comb
        bmi_status = BMI_SUCCESS
     case("tair")
        dest(1) = this%model%forcing%tair(1)
@@ -1017,9 +997,6 @@ contains
        bmi_status = BMI_SUCCESS
     case("bfncc")
        dest(1) = this%model%modelvar%bfncc(1)
-       bmi_status = BMI_SUCCESS
-    case("rmelt")
-       dest(1) = this%model%derived%precip_comb
        bmi_status = BMI_SUCCESS
     case("uztwm")
        dest(1) = this%model%parameters%uztwm(1)
@@ -1306,9 +1283,6 @@ contains
        bmi_status = BMI_SUCCESS
     case("bfncc")
        this%model%modelvar%bfncc(1) = src(1)
-       bmi_status = BMI_SUCCESS
-    case("rmelt")
-       this%model%derived%precip_comb = src(1)
        bmi_status = BMI_SUCCESS
     case("uztwm")
        this%model%parameters%uztwm(1) = src(1)
