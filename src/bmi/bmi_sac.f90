@@ -168,7 +168,7 @@ contains
     output_items(9) = 'bfs'     ! channel baseflow component (mm)
     output_items(10) = 'bfp'    ! channel baseflow component (mm)
     output_items(11) = 'bfncc'  ! non-channel baseflow component (mm)
-    output_items(12) = 'rmelt'  ! rain+melt liquid input (mm/s)
+    output_items(12) = 'precip_out'  ! rain+melt liquid input (mm/s)
 
     names => output_items
     bmi_status = BMI_SUCCESS
@@ -306,7 +306,7 @@ contains
     select case(name)
     case('tair', 'precip', 'pet', &                  ! input vars
          'qs', 'qg', 'tci', 'eta',  &                ! output vars
-         'roimp','sdro','ssur','sif','bfs','bfp', 'bfncc', 'rmelt')
+         'roimp','sdro','ssur','sif','bfs','bfp', 'bfncc', 'precip_out')
        grid = 0
        bmi_status = BMI_SUCCESS
     case('uztwm', 'uzfwm', 'lztwm', 'lzfsm',  'hru_area', &     ! parameters
@@ -602,7 +602,7 @@ contains
     select case(name)
     case('tair', 'precip', 'pet',  &                ! input vars
          'qs', 'qg', 'tci', 'eta', &                ! output vars
-         'roimp','sdro','ssur','sif','bfs','bfp', 'bfncc', 'rmelt')
+         'roimp','sdro','ssur','sif','bfs','bfp', 'bfncc', 'precip_out')
        type = "real"
        bmi_status = BMI_SUCCESS
     case('uztwm', 'uzfwm', 'lztwm', 'lzfsm',  'hru_area', &     ! parameters
@@ -640,7 +640,7 @@ contains
     integer :: bmi_status
 
     select case(name)
-    case("precip", "rmelt")
+    case("precip", "precip_out")
        units = "mm/s"
        bmi_status = BMI_SUCCESS
     case("tair")
@@ -763,7 +763,7 @@ contains
     integer :: bmi_status
 
     select case(name)
-    case("precip", "rmelt")
+    case("precip", "precip_out")
        size = sizeof(this%model%forcing%precip(1))
 !       size = sizeof(this%model%derived%precip_comb)    ! 'sizeof' in gcc & ifort
        bmi_status = BMI_SUCCESS
@@ -955,7 +955,7 @@ contains
     integer :: bmi_status
 
     select case(name)
-    case("precip", "rmelt")
+    case("precip", "precip_out")
        dest(1) = this%model%forcing%precip(1)
 !       dest(1) = this%model%derived%precip_comb
        bmi_status = BMI_SUCCESS
