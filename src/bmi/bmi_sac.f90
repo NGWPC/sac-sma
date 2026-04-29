@@ -1030,12 +1030,7 @@ contains
 !       dest(1) = this%model%derived%qs_comb
        bmi_status = BMI_SUCCESS
     case("qg")
-       ! Sac-SMA stores qg as baseflow depth in mm for the timestep.
-       ! NWM qBucket expects volume flow rate in m3/s.
-       ! parameters%total_area is in km2:
-       !   mm * 0.001 m/mm * km2 * 1.0e6 m2/km2 / s = m3/s
-       dest(1) = this%model%modelvar%qg(1) * this%model%parameters%total_area * 1000.0 / &
-                 real(this%model%runinfo%dt)
+       dest(1) = this%model%modelvar%qg(1)
        bmi_status = BMI_SUCCESS
     case("qg_m3_per_s")
         ! Sac-SMA stores qg as baseflow depth in mm for the timestep.
