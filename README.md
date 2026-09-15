@@ -10,6 +10,8 @@ Primary Language: Fortran
 ## Dependencies
 Fortran compiler
 
+Serialization uses a modified version of [Fortran MessagePack](https://github.com/synthfi/fortran-messagepack).
+
 ## Installation and Running in Standalone
 
 The following describes how to install the run the Sac-SMA as a standalone model.
